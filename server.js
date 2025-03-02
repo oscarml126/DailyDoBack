@@ -4,8 +4,13 @@ const cors = require('cors');
 const app = express();
 
 // Configuración de CORS
-// Permitir solo solicitudes desde 'https://dailydoaplication.com' y 'http://localhost:8100'
-const allowedOrigins = ['https://dailydoaplication.com', 'http://localhost:8100'];
+// Permitir solicitudes desde 'https://dailydoaplication.com', 'http://localhost:8100' y 'https://localhost'
+const allowedOrigins = [
+  'https://dailydoaplication.com',
+  'http://localhost:8100',
+  'https://localhost'
+];
+
 app.use(cors({
   origin: (origin, callback) => {
     // Si no se envía origin (por ejemplo, en llamadas desde herramientas o dispositivos móviles), lo permitimos.
@@ -39,7 +44,7 @@ app.use((err, req, res, next) => {
 // Puerto
 const PORT = process.env.PORT || 3000;
 
-// Importante: escuchar en '0.0.0.0' para aceptar conexiones externas
+// Escuchar en '0.0.0.0' para aceptar conexiones externas
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
