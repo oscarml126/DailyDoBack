@@ -115,5 +115,16 @@ const updateTaskHandler = async (req, res, next) => {
     next(error);
   }
 };
-
-module.exports = { createTaskHandler, getTasksHandler, updateTaskHandler };
+const getAllTasksHandler = async (req, res, next) => {
+  try {
+    const { username } = req.query;
+    if (!username) {
+      return res.status(400).json({ error: "El username es obligatorio." });
+    }
+    const tasks = await getTasksByUsername(username);
+    res.status(200).json({ tasks });
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = { createTaskHandler, getTasksHandler, updateTaskHandler, getAllTasksHandler };
