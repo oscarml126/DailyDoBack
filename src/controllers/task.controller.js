@@ -1,4 +1,4 @@
-const { createTask, getTasksByUsername, updateTask } = require('../models/task.model');
+const { createTask, getTasksByUsername, updateTask, getAllTasksByUsername } = require('../models/task.model');
 
 // Helper para obtener fecha local en formato YYYY-MM-DD
 function getLocalDate() {
@@ -121,7 +121,7 @@ const getAllTasksHandler = async (req, res, next) => {
     if (!username) {
       return res.status(400).json({ error: "El username es obligatorio." });
     }
-    const tasks = await getTasksByUsername(username);
+    const tasks = await getAllTasksByUsername(username);
     res.status(200).json({ tasks });
   } catch (error) {
     next(error);

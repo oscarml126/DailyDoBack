@@ -36,7 +36,7 @@ const createTask = async (taskData) => {
 };
 
 const getTasksByUsername = async (username) => {
-  const query = 'SELECT * FROM tasks WHERE username = $1';
+  const query = 'SELECT * FROM tasks WHERE username = $1 and active = true';
   const { rows } = await pool.query(query, [username]);
   return rows;
 };
@@ -72,4 +72,10 @@ const updateTask = async (id, updateData) => {
   return rows[0];
 };
 
-module.exports = { createTask, getTasksByUsername, updateTask };
+const getAllTasksByUsername = async (username) => {
+  const query = 'SELECT * FROM tasks WHERE username = $1';
+  const { rows } = await pool.query(query, [username]);
+  return rows;
+};
+
+module.exports = { createTask, getTasksByUsername, updateTask, getAllTasksByUsername };
