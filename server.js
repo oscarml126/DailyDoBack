@@ -3,7 +3,22 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-app.use(cors());
+// Configuración de CORS
+// Permitir solo solicitudes desde 'https://dailydoaplication.com' y 'http://localhost:8100'
+const allowedOrigins = ['https://dailydoaplication.com', 'http://localhost:8100'];
+app.use(cors({
+  origin: (origin, callback) => {
+    // Si no se envía origin (por ejemplo, en llamadas desde herramientas o dispositivos móviles), lo permitimos.
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'Acceso denegado por la política CORS';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
+}));
+
+// Permite el uso de JSON en las solicitudes
 app.use(express.json());
 
 // Importar rutas
@@ -15,7 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/history', historyRoutes);
 
-// Manejo de errores (opcional)
+// Middleware para manejo de errores (opcional)
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Ocurrió un error en el servidor.' });
@@ -24,7 +39,7 @@ app.use((err, req, res, next) => {
 // Puerto
 const PORT = process.env.PORT || 3000;
 
-// Importante: usar '0.0.0.0' para que acepte conexiones externas
+// Importante: escuchar en '0.0.0.0' para aceptar conexiones externas
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
