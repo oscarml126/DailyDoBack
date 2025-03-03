@@ -11,7 +11,7 @@ function getLocalDate() {
 
 // Helper para obtener nombre del día en español
 function getCurrentDayName(date) {
-  const now = date;
+  const now = date ? new Date(date) : new Date();
   const dayOfWeek = now.getDay();
   const dayMap = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
   return { dayName: dayMap[dayOfWeek], dayIndex: dayOfWeek };
