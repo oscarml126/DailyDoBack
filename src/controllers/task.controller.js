@@ -101,7 +101,7 @@ const getTasksHandler = async (req, res, next) => {
       }
       return false;
     });
-    res.status(200).json({ tasks: filteredTasks, valores: date });
+    res.status(200).json({ tasks: filteredTasks, valores: dayName, valores2: dayIndex });
   } catch (error) {
     next(error);
   }
