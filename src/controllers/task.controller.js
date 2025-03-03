@@ -72,7 +72,13 @@ const getTasksHandler = async (req, res, next) => {
       return res.status(400).json({ error: "El username es obligatorio." });
     }
     const tasks = await getTasksByUsername(username);
-    const currentDate = date || getLocalDate();
+    let currentDate;
+    if(!date){
+       currentDate = date;
+    }else{
+       currentDate = date;
+    }
+    
     const { dayName, dayIndex } = getCurrentDayName();
 
     const filteredTasks = tasks.filter(task => {
