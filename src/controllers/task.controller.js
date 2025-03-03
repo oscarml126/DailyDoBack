@@ -79,7 +79,6 @@ const getTasksHandler = async (req, res, next) => {
        currentDate = date;
     }
     
-    return date;
     const { dayName, dayIndex } = getCurrentDayName();
 
     const filteredTasks = tasks.filter(task => {
@@ -102,7 +101,7 @@ const getTasksHandler = async (req, res, next) => {
       }
       return false;
     });
-    res.status(200).json({ tasks: filteredTasks });
+    res.status(200).json({ tasks: filteredTasks, valores: date });
   } catch (error) {
     next(error);
   }
