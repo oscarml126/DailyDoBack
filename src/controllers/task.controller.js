@@ -79,6 +79,7 @@ const getTasksHandler = async (req, res, next) => {
        currentDate = date;
     }
     
+    return date;
     const { dayName, dayIndex } = getCurrentDayName();
 
     const filteredTasks = tasks.filter(task => {
