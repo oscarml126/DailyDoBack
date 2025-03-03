@@ -67,12 +67,12 @@ const createTaskHandler = async (req, res, next) => {
 
 const getTasksHandler = async (req, res, next) => {
   try {
-    const { username } = req.query;
+    const { username,date } = req.query;
     if (!username) {
       return res.status(400).json({ error: "El username es obligatorio." });
     }
     const tasks = await getTasksByUsername(username);
-    const currentDate = getLocalDate();
+    const currentDate = date || getLocalDate();
     const { dayName, dayIndex } = getCurrentDayName();
 
     const filteredTasks = tasks.filter(task => {
