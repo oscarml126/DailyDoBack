@@ -10,8 +10,8 @@ function getLocalDate() {
 }
 
 // Helper para obtener nombre del día en español
-function getCurrentDayName() {
-  const now = new Date();
+function getCurrentDayName(date) {
+  const now = date;
   const dayOfWeek = now.getDay();
   const dayMap = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
   return { dayName: dayMap[dayOfWeek], dayIndex: dayOfWeek };
@@ -79,7 +79,7 @@ const getTasksHandler = async (req, res, next) => {
        currentDate = date;
     }
     
-    const { dayName, dayIndex } = getCurrentDayName();
+    const { dayName, dayIndex } = getCurrentDayName(date);
 
     const filteredTasks = tasks.filter(task => {
       if (!task.repetitive) {
