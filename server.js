@@ -30,10 +30,13 @@ app.use(express.json());
 const authRoutes = require('./src/routes/auth.routes');
 const taskRoutes = require('./src/routes/task.routes');
 const historyRoutes = require('./src/routes/history.routes');
+const listRoutes = require('./src/routes/list.routes');
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/history', historyRoutes);
+app.use('/api/lists', listRoutes);
 
 // Middleware para manejo de errores (opcional)
 app.use((err, req, res, next) => {
