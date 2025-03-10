@@ -32,11 +32,25 @@ const taskRoutes = require('./src/routes/task.routes');
 const historyRoutes = require('./src/routes/history.routes');
 const listRoutes = require('./src/routes/list.routes');
 
+const transactionsRoutes = require('./routes/transactions.routes');
+const investmentsRoutes = require('./routes/investments.routes');
+const assetsRoutes = require('./routes/assets.routes');
+const budgetsRoutes = require('./routes/budgets.routes');
+const goalsRoutes = require('./routes/goals.routes');
+const alertsRoutes = require('./routes/alerts.routes');
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/lists', listRoutes);
+
+app.use('/api/transactions', transactionsRoutes);
+app.use('/api/investments', investmentsRoutes);
+app.use('/api/assets', assetsRoutes);
+app.use('/api/budgets', budgetsRoutes);
+app.use('/api/goals', goalsRoutes);
+app.use('/api/alerts', alertsRoutes);
 
 // Middleware para manejo de errores (opcional)
 app.use((err, req, res, next) => {
