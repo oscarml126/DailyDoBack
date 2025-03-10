@@ -7,9 +7,8 @@ const {
   
   const createTransactionHandler = async (req, res, next) => {
     try {
-      const { amount, type, category, description, date, imported } = req.body;
+      const { amount, type, category, description, date, imported, user_id } = req.body;
       // Se obtiene el user_id del objeto req.user (asumiendo que el middleware de autenticación lo coloca)
-      const user_id = req.user.id;
       // Validar campos obligatorios (puedes agregar más validaciones si es necesario)
       if (amount === undefined || !type || !category) {
         return res.status(400).json({ error: 'Faltan campos obligatorios.' });
@@ -32,7 +31,7 @@ const {
   
   const getTransactionsHandler = async (req, res, next) => {
     try {
-      const user_id = req.user.id;
+        const user_id = req.query.user_id;
       const transactions = await getTransactionsByUserId(user_id);
       res.status(200).json({ transactions });
     } catch (error) {
