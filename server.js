@@ -32,12 +32,12 @@ const taskRoutes = require('./src/routes/task.routes');
 const historyRoutes = require('./src/routes/history.routes');
 const listRoutes = require('./src/routes/list.routes');
 
-const transactionsRoutes = require('./routes/transactions.routes');
-const investmentsRoutes = require('./routes/investments.routes');
-const assetsRoutes = require('./routes/assets.routes');
-const budgetsRoutes = require('./routes/budgets.routes');
-const goalsRoutes = require('./routes/goals.routes');
-const alertsRoutes = require('./routes/alerts.routes');
+const transactionsRoutes = require('./src/routes/transactions.routes');
+const investmentsRoutes = require('./src/routes/investments.routes');
+const assetsRoutes = require('./src/routes/assets.routes');
+const budgetsRoutes = require('./src/routes/budgets.routes');
+const goalsRoutes = require('./src/routes/goals.routes');
+const alertsRoutes = require('./src/routes/alerts.routes');
 
 
 app.use('/api/auth', authRoutes);
