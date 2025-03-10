@@ -12,10 +12,17 @@ const createTransaction = async ({ user_id, amount, type, category, description,
 };
 
 const getTransactionsByUserId = async (user_id) => {
-  const query = 'SELECT * FROM transactions WHERE user_id = $1 ORDER BY date DESC';
-  const { rows } = await pool.query(query, [user_id]);
-  return rows;
-};
+    const query = `
+      SELECT *
+      FROM transactions
+      WHERE user_id = $1
+        AND date >= date_trunc('month', CURRENT_DATE)
+        AND date < date_trunc('month', CURRENT_DATE) + INTERVAL '1 month'
+      ORDER BY date DESC;
+    `;
+    const { rows } = await pool.query(query, [user_id]);
+    return rows;
+  };  
 
 const updateTransaction = async (id, updateData) => {
   const query = `
