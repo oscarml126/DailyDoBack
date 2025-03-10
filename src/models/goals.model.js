@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require("../config/db");
 
 exports.getGoals = async (userId) => {
   const result = await db.query('SELECT * FROM goals WHERE user_id = $1', [userId]);

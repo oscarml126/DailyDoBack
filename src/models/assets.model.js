@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require("../config/db");
 
 exports.getAllAssets = async (userId) => {
   const result = await db.query(

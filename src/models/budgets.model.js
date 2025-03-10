@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require("../config/db");
 
 exports.getBudgets = async (userId) => {
   const result = await db.query('SELECT * FROM budgets WHERE user_id = $1', [userId]);

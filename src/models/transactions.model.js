@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require("../config/db");
 
 exports.getAllTransactions = async (userId) => {
   const result = await db.query(
