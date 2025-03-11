@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const listsController = require('../controllers/lists.controller');
 const { getLists, getListById, createList, updateList, deleteList, updateListItem, deleteListItem } = require('../controllers/lists.controller');
 
 // Endpoints para listas
