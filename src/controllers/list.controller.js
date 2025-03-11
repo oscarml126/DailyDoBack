@@ -1,5 +1,4 @@
-// controllers/lists.controller.js
-const listsModel = require('../models/list.model');
+const listsModel = require('../models/lists.model');
 
 const getLists = async (req, res) => {
   try {
@@ -65,4 +64,23 @@ const updateListItem = async (req, res) => {
     res.status(500).json({ error: 'Error al actualizar el item' });
   }
 };
-module.exports = { updateListItem, deleteList, updateList, createList, getListById, getLists };
+
+const deleteListItem = async (req, res) => {
+  try {
+    const { listId, itemId } = req.params;
+    const deactivatedItem = await listsModel.deleteListItem(listId, itemId);
+    res.json(deactivatedItem);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al desactivar el item' });
+  }
+};
+
+module.exports = { 
+  getLists, 
+  getListById, 
+  createList, 
+  updateList, 
+  deleteList, 
+  updateListItem, 
+  deleteListItem 
+};
