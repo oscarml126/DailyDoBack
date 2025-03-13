@@ -1,8 +1,9 @@
 const db = require('../config/db');
 
-exports.getAllLists = async () => {
-  const result = await db.query('SELECT * FROM lists ORDER BY id');
-  return result.rows;
+exports.getAllLists = async (username) => {
+  const query = 'SELECT * FROM lists WHERE username = $1 ORDER BY id DESC';
+  const { rows } = await pool.query(query, [username]);
+  return rows;
 };
 
 exports.getListById = async (id) => {

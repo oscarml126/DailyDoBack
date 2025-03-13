@@ -2,7 +2,12 @@ const listsModel = require('../models/list.model');
 
 const getLists = async (req, res) => {
   try {
-    const lists = await listsModel.getAllLists();
+    const { username } = req.query;
+
+    if (!username) {
+      return res.status(400).json({ error: "El username es obligatorio." });
+    }
+    const lists = await listsModel.getAllLists(username);
     res.json(lists);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener listas' });
