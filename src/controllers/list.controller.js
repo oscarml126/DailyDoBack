@@ -30,8 +30,8 @@ const getListById = async (req, res) => {
 
 const createList = async (req, res) => {
   try {
-    const { title, description, color, items } = req.body;
-    const newList = await listsModel.createList({ title, description, color, items });
+    const { title, description, color, items, username } = req.body;
+    const newList = await listsModel.createList({ title, description, color, items, username });
     res.status(201).json(newList);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear la lista' });

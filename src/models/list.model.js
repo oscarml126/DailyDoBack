@@ -16,10 +16,10 @@ exports.getListById = async (id) => {
   return { ...listResult.rows[0], items: itemsResult.rows };
 };
 
-exports.createList = async ({ title, description, color, items }) => {
+exports.createList = async ({ title, description, color, items, username }) => {
   const listResult = await db.query(
-    'INSERT INTO lists (title, description, color) VALUES ($1, $2, $3) RETURNING *',
-    [title, description, color]
+    'INSERT INTO lists (title, description, color, username) VALUES ($1, $2, $3, $4) RETURNING *',
+    [title, description, color, username]
   );
   const list = listResult.rows[0];
   if (items && items.length > 0) {
