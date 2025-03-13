@@ -1,9 +1,14 @@
 const db = require('../config/db');
 
 exports.getAllLists = async (username) => {
-  const query = 'SELECT * FROM lists WHERE username = $1 ORDER BY id DESC';
-  const { rows } = await pool.query(query, [username]);
-  return rows;
+  try {
+    const query = 'SELECT * FROM lists WHERE username = $1 ORDER BY id DESC';
+    const { rows } = await pool.query(query, [username]);
+    return rows;
+  } catch (error) {
+    console.error('Error al obtener las listas:',username, error);
+    throw error;
+  }
 };
 
 exports.getListById = async (id) => {
