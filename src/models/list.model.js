@@ -1,16 +1,16 @@
 const db = require('../config/db');
 
 exports.getAllLists = async (username) => {
-  console.log(username);
   try {
     const query = 'SELECT * FROM lists WHERE username = $1 ORDER BY id DESC';
-    const { rows } = await pool.query(query, [username]);
+    const { rows } = await db.query(query, [username]);
     return rows;
   } catch (error) {
-    console.error('Error al obtener las listas:', username, error);
+    console.error('Error al obtener las listas para username:', username, error);
     throw error;
   }
 };
+
 
 exports.getListById = async (id) => {
   // Traer solo los items activos
