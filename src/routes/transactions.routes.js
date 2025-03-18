@@ -4,12 +4,14 @@ const {
   createTransactionHandler, 
   getTransactionsHandler, 
   updateTransactionHandler,
-  deleteTransactionHandler 
+  deleteTransactionHandler,
+  getFilteredTransactionsHandler
 } = require('../controllers/transactions.controller');
 
 router.post('/', createTransactionHandler);
 router.get('/', getTransactionsHandler);
 router.put('/:id', updateTransactionHandler);
 router.delete('/:id', deleteTransactionHandler);
+router.get('/filter', getFilteredTransactionsHandler);
 
 module.exports = router;

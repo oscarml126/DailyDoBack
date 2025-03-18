@@ -54,10 +54,23 @@ const updateTransaction = async (id, updateData) => {
 const deleteTransaction = async (id) => {
   await pool.query('DELETE FROM transactions WHERE id = $1', [id]);
 };
+const getTransactionsByUserIdAndDateRange = async (user_id, start_date, end_date) => {
+  const query = `
+    SELECT *
+    FROM transactions
+    WHERE user_id = $1
+      AND date >= $2
+      AND date <= $3
+    ORDER BY date DESC;
+  `;
+  const { rows } = await pool.query(query, [user_id, start_date, end_date]);
+  return rows;
+};
 
 module.exports = { 
   createTransaction, 
   getTransactionsByUserId, 
   updateTransaction, 
-  deleteTransaction 
+  deleteTransaction,
+  getTransactionsByUserIdAndDateRange
 };

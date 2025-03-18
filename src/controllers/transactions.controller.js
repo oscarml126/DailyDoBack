@@ -2,7 +2,8 @@ const {
     createTransaction, 
     getTransactionsByUserId, 
     updateTransaction, 
-    deleteTransaction 
+    deleteTransaction,
+    getTransactionsByUserIdAndDateRange 
   } = require('../models/transactions.model');
   
   const createTransactionHandler = async (req, res, next) => {
@@ -64,11 +65,24 @@ const {
       next(error);
     }
   };
-  
+  const getFilteredTransactionsHandler = async (req, res, next) => {
+    try {
+      const { user_id, start_date, end_date } = req.query;
+      if (!user_id || !start_date || !end_date) {
+        return res.status(400).json({ error: 'Se requieren user_id, start_date y end_date en la query.' });
+      }
+      const transactions = await getTransactionsByUserIdAndDateRange(user_id, start_date, end_date);
+      res.status(200).json({ transactions });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   module.exports = { 
     createTransactionHandler, 
     getTransactionsHandler, 
     updateTransactionHandler, 
-    deleteTransactionHandler 
+    deleteTransactionHandler,
+    getFilteredTransactionsHandler
   };
   
