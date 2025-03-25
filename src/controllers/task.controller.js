@@ -88,7 +88,7 @@ const getTasksHandler = async (req, res, next) => {
 
     const filteredTasks = tasks.filter(task => {
       if (!task.repetitive) {
-        return task.date === currentDate;
+        return task.date == currentDate;
       } else {
         if (task.repetition_type === "weekdays") {
           return dayIndex >= 1 && dayIndex <= 5;
@@ -102,8 +102,8 @@ const getTasksHandler = async (req, res, next) => {
             Array.isArray(task.custom_days) &&
             task.custom_days.includes(dayName)
           );
-        }else if(task.repetition_type ==="fecha_unica"){
-          return task.date === currentDate;
+        }else if(task.repetition_type =="fecha_unica"){
+          return task.date == currentDate;
         }
       }
       return false;
