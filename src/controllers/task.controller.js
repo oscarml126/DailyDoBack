@@ -1,9 +1,4 @@
-const {
-  createTask,
-  getTasksByUsername,
-  updateTask,
-  getAllTasksByUsername
-} = require('../models/task.model');
+const { createTask, getTasksByUsername, updateTask, getAllTasksByUsername } = require('../models/task.model');
 
 // Helper para obtener la fecha local en formato YYYY-MM-DD
 function getLocalDate() {
@@ -18,15 +13,7 @@ function getLocalDate() {
 function getCurrentDayName(date) {
   const now = date ? new Date(date) : new Date();
   const dayOfWeek = now.getDay();
-  const dayMap = [
-    "domingo",
-    "lunes",
-    "martes",
-    "miercoles",
-    "jueves",
-    "viernes",
-    "sabado"
-  ];
+  const dayMap = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
   return { dayName: dayMap[dayOfWeek], dayIndex: dayOfWeek };
 }
 
@@ -96,11 +83,12 @@ const getTasksHandler = async (req, res, next) => {
 
     const filteredTasks = tasks.filter(task => {
       if (!task.repetitive) {
-        return task.date === currentDate;
+        // Se compara solo la parte de la fecha (primeros 10 caracteres)
+        return task.date.substring(0, 10) === currentDate;
       } else {
         // Si la tarea repetitiva tiene una fecha específica (por "fecha_unica"), se ejecuta solo ese día
         if (task.date) {
-          return task.date === currentDate;
+          return task.date.substring(0, 10) === currentDate;
         }
         // Si no tiene fecha única, se aplica la lógica según el tipo de repetición
         if (task.repetition_type === "weekdays") {
@@ -153,9 +141,4 @@ const getAllTasksHandler = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  createTaskHandler,
-  getTasksHandler,
-  updateTaskHandler,
-  getAllTasksHandler
-};
+module.exports = { createTaskHandler, getTasksHandler, updateTaskHandler, getAllTasksHandler };
