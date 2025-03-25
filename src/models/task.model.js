@@ -13,7 +13,6 @@ const createTask = async (taskData) => {
     date
   } = taskData;
 
-  // La base de datos asignará isChecked = false por defecto.
   const query = `
     INSERT INTO tasks (username, name, category, description, duration, repetitive, repetition_type, custom_days, date)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
@@ -78,4 +77,9 @@ const getAllTasksByUsername = async (username) => {
   return rows;
 };
 
-module.exports = { createTask, getTasksByUsername, updateTask, getAllTasksByUsername };
+module.exports = {
+  createTask,
+  getTasksByUsername,
+  updateTask,
+  getAllTasksByUsername
+};
