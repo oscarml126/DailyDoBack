@@ -87,8 +87,15 @@ const getTasksHandler = async (req, res, next) => {
     const { dayName, dayIndex } = getCurrentDayName(date);
 
     const filteredTasks = tasks.filter(task => {
+      let storedDate = "";
+      if (task.date) {
+        // Si task.date es una cadena, extraemos solo los primeros 10 caracteres (YYYY-MM-DD)
+        storedDate = typeof task.date === "string" 
+          ? task.date.substring(0, 10)
+          : new Date(task.date).toISOString().substring(0, 10);
+      }
       if (!task.repetitive) {
-        return task.date == currentDate;
+        return storedDate === currentDate;
       } else {
         if (task.repetition_type === "weekdays") {
           return dayIndex >= 1 && dayIndex <= 5;
@@ -103,7 +110,7 @@ const getTasksHandler = async (req, res, next) => {
             task.custom_days.includes(dayName)
           );
         }else if(task.repetition_type =="fecha_unica"){
-          return task.date == currentDate;
+          return storedDate === currentDate;
         }
       }
       return false;
