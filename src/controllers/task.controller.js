@@ -72,25 +72,24 @@ const createTaskHandler = async (req, res, next) => {
 
 const getTasksHandler = async (req, res, next) => {
   try {
-    const { username, date } = req.query;
+    const { username,date } = req.query;
     if (!username) {
       return res.status(400).json({ error: "El username es obligatorio." });
     }
     const tasks = await getTasksByUsername(username);
-    // Usamos la fecha proporcionada o la fecha local
-    const currentDate = date || getLocalDate();
-    const { dayName, dayIndex } = getCurrentDayName(currentDate);
+    let currentDate;
+    if(!date){
+       currentDate = date;
+    }else{
+       currentDate = date;
+    }
+    
+    const { dayName, dayIndex } = getCurrentDayName(date);
 
     const filteredTasks = tasks.filter(task => {
       if (!task.repetitive) {
-        // Se compara solo la parte de la fecha (primeros 10 caracteres)
-        return task.date.substring(0, 10) === currentDate;
+        return task.date === currentDate;
       } else {
-        // Si la tarea repetitiva tiene una fecha específica (por "fecha_unica"), se ejecuta solo ese día
-        if (task.date) {
-          return task.date.substring(0, 10) === currentDate;
-        }
-        // Si no tiene fecha única, se aplica la lógica según el tipo de repetición
         if (task.repetition_type === "weekdays") {
           return dayIndex >= 1 && dayIndex <= 5;
         } else if (task.repetition_type === "weekends") {
