@@ -102,6 +102,8 @@ const getTasksHandler = async (req, res, next) => {
             Array.isArray(task.custom_days) &&
             task.custom_days.includes(dayName)
           );
+        }else if(task.repetition_type ==="fecha_unica"){
+          return task.date === currentDate;
         }
       }
       return false;
