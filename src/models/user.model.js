@@ -12,17 +12,39 @@ const createUser = async (userData) => {
   return rows[0];
 };
 const setRecoveryCode = async (email, code, expiresAt) => {
-  return db.query('UPDATE users SET recovery_code = $1, recovery_expires = $2 WHERE email = $3', 
-      [code, expiresAt, email]);
+  const query = `
+    UPDATE users 
+    SET recovery_code = $1, recovery_expires = $2 
+    WHERE email = $3 
+    RETURNING id, email, recovery_code, recovery_expires;
+  `;
+  const values = [code, expiresAt, email];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
 };
 
 const getUserByRecoveryCode = async (email, code) => {
-  return db.query('SELECT * FROM users WHERE email = $1 AND recovery_code = $2', [email, code]);
+  const query = `
+    SELECT id, username, name, lastname, email, recovery_expires 
+    FROM users 
+    WHERE email = $1 AND recovery_code = $2;
+  `;
+  const values = [email, code];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
 };
 
 const updatePassword = async (email, hashedPassword) => {
-  return db.query('UPDATE users SET password = $1, recovery_code = NULL, recovery_expires = NULL WHERE email = $2', 
-      [hashedPassword, email]);
+  const query = `
+    UPDATE users 
+    SET password = $1, recovery_code = NULL, recovery_expires = NULL 
+    WHERE email = $2 
+    RETURNING id, email, updated_at;
+  `;
+  const values = [hashedPassword, email];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
 };
+
 
 module.exports = { createUser,setRecoveryCode,getUserByRecoveryCode,updatePassword };
