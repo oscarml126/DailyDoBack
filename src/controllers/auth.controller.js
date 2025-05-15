@@ -1,7 +1,7 @@
 // src/controllers/auth.controller.js
 const bcrypt = require('bcrypt');
 const pool = require('../config/db');
-const { createUser } = require('../models/user.model');
+const { createUser, setRecoveryCode,getUserByRecoveryCode,updatePassword } = require('../models/user.model');
 
 // Registro de usuario
 const register = async (req, res, next) => {
@@ -84,5 +84,46 @@ const login = async (req, res, next) => {
     next(error);
   }
 };
+function generateRecoveryCode(length = 8) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  return Array.from({ length }, () => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+}
 
-module.exports = { register, login };
+const requestPasswordRecovery = async (req, res) => {
+  const { email } = req.body;
+  const code = generateRecoveryCode();
+  const expiresAt = new Date(Date.now() + 15 * 60000); // 15 minutos
+
+  try {
+      await setRecoveryCode(email, code, expiresAt);
+      await sendRecoveryEmail(email, code);
+      res.json({ message: 'Se ha enviado un correo con el código de recuperación.' });
+  } catch (err) {
+      res.status(500).json({ message: 'Error al procesar la solicitud.', error: err.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { email, recoveryCode, newPassword } = req.body;
+
+  try {
+      const result = await getUserByRecoveryCode(email, recoveryCode);
+
+      if (result.rowCount === 0) {
+          return res.status(400).json({ message: 'Código de recuperación inválido.' });
+      }
+
+      const user = result.rows[0];
+      if (new Date() > new Date(user.recovery_expires)) {
+          return res.status(400).json({ message: 'El código ha expirado.' });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await updatePassword(email, hashedPassword);
+
+      res.json({ message: 'Contraseña actualizada correctamente.' });
+  } catch (err) {
+      res.status(500).json({ message: 'Error al actualizar la contraseña.', error: err.message });
+  }
+};
+module.exports = { register, login,requestPasswordRecovery, resetPassword };

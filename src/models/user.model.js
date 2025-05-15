@@ -11,5 +11,18 @@ const createUser = async (userData) => {
   const { rows } = await pool.query(query, values);
   return rows[0];
 };
+const setRecoveryCode = async (email, code, expiresAt) => {
+  return db.query('UPDATE users SET recovery_code = $1, recovery_expires = $2 WHERE email = $3', 
+      [code, expiresAt, email]);
+};
 
-module.exports = { createUser };
+const getUserByRecoveryCode = async (email, code) => {
+  return db.query('SELECT * FROM users WHERE email = $1 AND recovery_code = $2', [email, code]);
+};
+
+const updatePassword = async (email, hashedPassword) => {
+  return db.query('UPDATE users SET password = $1, recovery_code = NULL, recovery_expires = NULL WHERE email = $2', 
+      [hashedPassword, email]);
+};
+
+module.exports = { createUser,setRecoveryCode,getUserByRecoveryCode,updatePassword };
