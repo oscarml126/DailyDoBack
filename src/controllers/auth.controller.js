@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const pool = require('../config/db');
 const { createUser, setRecoveryCode,getUserByRecoveryCode,updatePassword } = require('../models/user.model');
+const { sendRecoveryEmail } = require('../utils/mailer');
 
 // Registro de usuario
 const register = async (req, res, next) => {
