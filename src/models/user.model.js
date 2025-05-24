@@ -30,8 +30,8 @@ const getUserByRecoveryCode = async (email, code) => {
     WHERE email = $1 AND recovery_code = $2;
   `;
   const values = [email, code];
-  const { rows } = await pool.query(query, values);
-  return rows[0];
+  // devolvemos TODO el resultado de la query
+  return await pool.query(query, values);
 };
 
 const updatePassword = async (email, hashedPassword) => {

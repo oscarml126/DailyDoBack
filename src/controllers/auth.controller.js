@@ -122,9 +122,11 @@ const resetPassword = async (req, res) => {
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       await updatePassword(email, hashedPassword);
 
-      res.json({ message: 'Contraseña actualizada correctamente.' });
+      return res.json({ message: 'Contraseña actualizada correctamente.' });
   } catch (err) {
-      res.status(500).json({ message: 'Error al actualizar la contraseña.', error: err.message });
+      console.error(err);
+      return res.status(500).json({ message: 'Error al actualizar la contraseña.', error: err.message });
   }
 };
+
 module.exports = { register, login,requestPasswordRecovery, resetPassword };
