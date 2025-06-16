@@ -2,12 +2,12 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.sendgrid.net',
-    port: 2525,
-    secure: false, // true sólo si usas TLS
-    auth: {
-        user: 'apikey',
-        pass: 'xnqh zfdx eaba tsxn'
+     host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // STARTTLS
+  auth: {
+    user: 'oscarmontano222@gmail.com',
+    pass: 'xnqh zfdx eaba tsxn'
     }
 });
 
