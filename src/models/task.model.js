@@ -72,7 +72,7 @@ const updateTask = async (id, updateData) => {
 };
 
 const getAllTasksByUsername = async (username) => {
-  const query = 'SELECT * FROM tasks WHERE username = $1';
+   const query = 'SELECT * FROM tasks WHERE username = $1 ORDER BY active DESC, created_at DESC;';
   const { rows } = await pool.query(query, [username]);
   return rows;
 };

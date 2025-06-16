@@ -11,7 +11,7 @@ function getLocalDate() {
 
 // Helper para obtener el nombre del día en español
 function getCurrentDayName(date) {
-  const now = date ? new Date(date) : new Date();
+  const now = date ? new Date(date + "T12:00:00") : new Date();
   const dayOfWeek = now.getDay();
   const dayMap = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
   return { dayName: dayMap[dayOfWeek], dayIndex: dayOfWeek };
@@ -83,8 +83,12 @@ const getTasksHandler = async (req, res, next) => {
     }else{
        currentDate = date;
     }
+
+    
     
     const { dayName, dayIndex } = getCurrentDayName(date);
+
+    
 
     const filteredTasks = tasks.filter(task => {
       let storedDate = "";

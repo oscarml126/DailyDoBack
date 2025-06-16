@@ -1,12 +1,12 @@
 const pool = require('../config/db');
 
-const createTransaction = async ({ user_id, amount, type, category, description, date, imported }) => {
+const createTransaction = async ({ user_id, amount, type, category, description, date, imported, payment_method }) => {
   const query = `
-    INSERT INTO transactions (user_id, amount, type, category, description, date, imported)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    INSERT INTO transactions (user_id, amount, type, category, description, date, imported, payment_method)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
   `;
-  const values = [user_id, amount, type, category, description, date, imported];
+  const values = [user_id, amount, type, category, description, date, imported, payment_method];
   const { rows } = await pool.query(query, values);
   return rows[0];
 };
@@ -18,7 +18,7 @@ const getTransactionsByUserId = async (user_id) => {
       WHERE user_id = $1
         AND date >= date_trunc('month', CURRENT_DATE)
         AND date < date_trunc('month', CURRENT_DATE) + INTERVAL '1 month'
-      ORDER BY date DESC;
+      ORDER BY date DESC, id DESC;
     `;
     const { rows } = await pool.query(query, [user_id]);
     return rows;
@@ -32,9 +32,8 @@ const updateTransaction = async (id, updateData) => {
         category = COALESCE($3, category),
         description = COALESCE($4, description),
         date = COALESCE($5, date),
-        imported = COALESCE($6, imported),
-        updated_date = COALESCE($7, updated_date)
-    WHERE id = $8
+        payment_method = COALESCE($6, payment_method)
+    WHERE id = $7
     RETURNING *
   `;
   const values = [
@@ -43,8 +42,7 @@ const updateTransaction = async (id, updateData) => {
     updateData.category,
     updateData.description,
     updateData.date,
-    updateData.imported,
-    updateData.updated_date,
+    updateData.payment_method,
     id
   ];
   const { rows } = await pool.query(query, values);
@@ -67,10 +65,17 @@ const getTransactionsByUserIdAndDateRange = async (user_id, start_date, end_date
   return rows;
 };
 
+const getTransactionById = async (id) => {
+  const query = `SELECT * FROM transactions WHERE id = $1`;
+  const { rows } = await pool.query(query, [id]);
+  return rows[0];
+};
+
 module.exports = { 
   createTransaction, 
   getTransactionsByUserId, 
   updateTransaction, 
   deleteTransaction,
-  getTransactionsByUserIdAndDateRange
+  getTransactionsByUserIdAndDateRange,
+  getTransactionById
 };
