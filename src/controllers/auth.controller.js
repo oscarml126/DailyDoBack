@@ -59,6 +59,8 @@ const login = async (req, res, next) => {
     const query = 'SELECT * FROM users WHERE email = $1 OR username = $1';
     const { rows } = await pool.query(query, [identifier]);
     
+    
+    
     if (rows.length === 0) {
       return res.status(400).json({ error: 'Usuario no encontrado.' });
     }
@@ -92,6 +94,16 @@ function generateRecoveryCode(length = 8) {
 
 const requestPasswordRecovery = async (req, res) => {
   const { email } = req.body;
+
+  const query = 'SELECT * FROM users WHERE email = $1 OR username = $1';
+    const { rows } = await pool.query(query, [email]);
+    
+    
+    
+    if (rows.length === 0) {
+      return res.status(400).json({ error: 'Usuario no encontrado.' });
+    }
+
   const code = generateRecoveryCode();
   const expiresAt = new Date(Date.now() + 15 * 60000); // 15 minutos
 

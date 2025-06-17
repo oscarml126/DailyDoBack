@@ -39,7 +39,7 @@ const updatePassword = async (email, hashedPassword) => {
     UPDATE users 
     SET password = $1, recovery_code = NULL, recovery_expires = NULL 
     WHERE email = $2 
-    RETURNING id, email, updated_at;
+    RETURNING id, email;
   `;
   const values = [hashedPassword, email];
   const { rows } = await pool.query(query, values);
