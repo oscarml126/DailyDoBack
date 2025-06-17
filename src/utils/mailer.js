@@ -1,5 +1,4 @@
-const nodemailer = require('nodemailer');
-require('dotenv').config();
+
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey('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');
 
