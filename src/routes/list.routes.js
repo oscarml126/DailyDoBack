@@ -16,8 +16,6 @@ router.get('/:id', getListById);
 router.post('/', createList);
 router.put('/:id', updateList);
 router.delete('/:id', deleteList);
-
-// Endpoints para items (actualizar y "eliminar" desactivando)
 router.put('/:listId/items/:itemId', updateListItem);
 router.delete('/:listId/items/:itemId', deleteListItem);
 

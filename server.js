@@ -38,6 +38,7 @@ const assetsRoutes = require('./src/routes/assets.routes');
 const budgetsRoutes = require('./src/routes/budgets.routes');
 const goalsRoutes = require('./src/routes/goals.routes');
 const alertsRoutes = require('./src/routes/alerts.routes');
+const friendsRoutes = require('./src/routes/friends.routes');
 
 
 app.use('/api/auth', authRoutes);
@@ -51,6 +52,7 @@ app.use('/api/assets', assetsRoutes);
 app.use('/api/budgets', budgetsRoutes);
 app.use('/api/goals', goalsRoutes);
 app.use('/api/alerts', alertsRoutes);
+app.use('/api/friends', friendsRoutes);
 
 // Middleware para manejo de errores (opcional)
 app.use((err, req, res, next) => {
