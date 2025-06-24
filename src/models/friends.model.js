@@ -50,7 +50,7 @@ const getFriendsList = async (userId) => {
       u.name, 
       u.lastname, 
       f.status,
-      f.to_user_id
+      u.id as friend_id
     FROM friends f
     JOIN users u 
       ON (
